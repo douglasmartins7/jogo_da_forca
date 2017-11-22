@@ -31,7 +31,7 @@ def pede_um_chute(chutes, erros)
     puts "Chutes até agora: #{chutes}"
     puts "Entre com a letra ou palavra"
     chute = gets.strip
-    puts = "Será que acertou? Você chutou #{chute}"
+    puts  "Será que acertou? Você chutou #{chute}"
     chute
 end
 
@@ -45,14 +45,41 @@ def joga(nome)
     while erros < 5
         chute = pede_um_chute chutes, erros
         chutes << chute
-    end
 
+        chutou_uma_unica_letra = chute.size == 1
+        if chutou_uma_unica_letra
+            total_encontrado = 0
+
+            for i = 0..(palavra_secreta.size - 1)
+                letra = palavra_secreta[i]
+                if letra == chute
+                    total_encontrado +=1
+                end
+            end
+
+            if total_encontrado == 0
+                puts "Letra não encontrada!"
+                erros += 1
+            else
+                puts "Letra encontrada #{total_encontrado} vezes!"
+            end
+    else
+        acertou = chute == palavra_secreta
+        if acertou
+            puts "Parabens! Acertou"
+            ponto_ate_agora += 100
+            break
+        else 
+            puts "Que pena... errou!"
+            ponto_ate_agora -= 30
+        end
+    end
     puts "Você ganhou #{pontos_ate_agora} pontos."
 end
 
-chutou_uma_unica_letra = chute.size == 1
-if chutou_uma_unica_letra
 
+if chutou_uma_unica_letra
+    total_encontrado = 0
 else
     acertou = chute == palavra_secreta
     if acertou
@@ -68,3 +95,38 @@ end
 
 nome = da_boas_vindas
 palavra = sorteia_palavra_secreta
+
+# dada a palavra mágica, `programador` para uma criança,
+# Ela escreve zero em um cantinho do papel (ou na cabeça, na memória!).
+# Ai ela olha a primeira letra da palavra (aponta para ela com o dedo!).
+# Essa letra é a letra `o` que estou procurando? Não.
+# Vai para a próxima.
+# É? Não.
+# Próxima.
+# É? Sim!
+# Então soma um no cantinho do papel (na memória).
+# Continua até o fim.
+
+# No fim,
+# se o número é zero,
+# significa que a letra não está lá dentro, aumenta um erro
+# se o número é diferente de zero,
+# ele representa quantas vezes encontrou.
+
+palavra_secreta = "programador"
+chute = "o"
+total_encontrado = 0
+
+for i = 0..(palavra_secreta.size -1)
+    letra = palavra_secreta[i]
+    if letra == chute
+        total_encontrado += 1
+    end
+end   
+
+if total_encontrado == 0
+    puts "Letra não encontrada!"
+    erros += 1
+else
+    puts "Letra encontrada #{total_encontrado} vezes!"
+end
