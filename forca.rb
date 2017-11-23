@@ -75,21 +75,26 @@
 # end
 
 #refatora codigo 
-
 def da_boas_vindas
     puts "Bem vindo ao jogo da forca"
     puts "Qual é o seu nome?"
     nome = gets.strip
     puts "\n\n\n\n\n\n"
-    puts "Começaremos o jogo para você, #{nome}"
+    puts "Começaremos o jogo para você, #{nome}."
     nome
 end
 
-def sorteia_palavra_secreta
-    puts "Escolhendo uma palavra..."
+def escolhe_palavra_secreta
+    puts "Escolhendo uma palavra secreta..."
     palavra_secreta = "programador"
     puts "Escolhida uma palavra com #{palavra_secreta.size} letras... boa sorte!"
     palavra_secreta
+end
+
+def nao_quer_jogar?
+    puts "Deseja jogar novamente? (S/N)"
+    quero_jogar = gets.strip
+    nao_quero_jogar = quero_jogar.upcase == "N"
 end
 
 def pede_um_chute(chutes, erros)
@@ -103,7 +108,7 @@ def pede_um_chute(chutes, erros)
 end
 
 def joga(nome)
-    palavra_secreta = sorteia_palavra_secreta
+    palavra_secreta = escolhe_palavra_secreta
 
     erros = 0
     chutes = []
@@ -121,13 +126,14 @@ def joga(nome)
         chutou_uma_unica_letra = chute.size == 1
         if chutou_uma_unica_letra
             #count - Ele conta o número de aparições de um caracter em uma String (entre outras utilizações possíveis).
-            total_encontrado = palavra_secreta.count(chute[0])
+            letra_procurada = chute[0]
+            total_encontrado = palavra_secreta.count letra_procurada
             if total_encontrado == 0
                 puts "Letra não encontrada!"
                 erros += 1
             else
                 puts "Letra encontrada #{total_encontrado} vezes"
-        end
+            end
         else
             acertou = chute == palavra_secreta
             if acertou
@@ -145,37 +151,33 @@ def joga(nome)
     puts "Você ganhou #{ponto_ate_agora} pontos."
 end    
 
-def conta(texto, caracter)
-    total_encontrado = 0
+# def conta(texto, caracter)
+#     total_encontrado = 0
 
-    # for i = 0..texto.size
-    #     letra = texto[i]
-    #     if letra == caracter
-    #         total_encontrado += 1
-    #     end
-    # end
+#     # for i = 0..texto.size
+#     #     letra = texto[i]
+#     #     if letra == caracter
+#     #         total_encontrado += 1
+#     #     end
+#     # end
 
-    #chars que devolve um array de caracteres
-    for letra in texto.chars
-        if letra == caracter
-            total_encontrado += 1
-        end
-    end
+#     #chars que devolve um array de caracteres
+#     for letra in texto.chars
+#         if letra == caracter
+#             total_encontrado += 1
+#         end
+#     end
 
-    total_encontrado
-end
-
-def nao_quer_jogar?
-    puts "Deseja jogar novamente? (S/N)"
-    quero_jogar = gets.strip
-    nao_quero_jogar = quero_jogar.upcase == "N"
-end
+#     total_encontrado
+# end
 
 nome = da_boas_vindas
-palavra = sorteia_palavra_secreta
+palavra = escolhe_palavra_secreta
 
 loop do 
     joga nome
-    break if nao_quer_jogar
+    if nao_quer_jogar?
+        break
+    end
 end
 
