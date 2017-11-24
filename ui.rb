@@ -14,7 +14,7 @@ end
 
 def pede_um_chute
     puts "Entre com a letra ou palavra"
-    chute = gets.strip
+    chute = gets.strip.downcase
     puts  "Será que acertou? Você chutou #{chute}"
     chute
 end
@@ -62,4 +62,13 @@ end
 
 def avisa_pontos(pontos_ate_agora)
     puts "Você ganhou #{pontos_ate_agora} pontos."
+end
+
+def avisa_escolhendo_palavra
+    puts "Escolhendo uma palavra..."
+end
+
+def avisa_palavra_escolhida(palavra_secreta)
+    puts "Escolhida uma palavra com #{palavra_secreta.size} letras... boa sorte!"
+    palavra_secreta
 end

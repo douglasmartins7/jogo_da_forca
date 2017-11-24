@@ -166,6 +166,14 @@ end
 #     total_encontrado
 # end
 
+def sorteia_palavra_secreta
+    avisa_escolhendo_palavra
+    texto = File.read("dicionario.txt")
+    todas_as_palavras = texto.split("\n")
+    numero_aleatorio = rand(todas_as_palavras.size)
+    palavra_secreta = todas_as_palavras[numero_aleatorio].downcase
+    avisa_palavra_escolhida palavra_secreta
+end
 
 def jogo_da_forca
     nome = da_boas_vindas
