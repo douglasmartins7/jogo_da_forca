@@ -1,3 +1,8 @@
+#::business logic::
+#lógica de negócio
+
+#Adicionar nova funcionalidade
+
 require_relative 'ui' 
 
 # dada a palavra mágica, `programador` para uma criança,
@@ -81,14 +86,11 @@ def joga(nome)
 
     erros = 0
     chutes = []
-    ponto_ate_agora = 0
+    pontos_ate_agora = 0
 
     while erros < 5
-        chute = pede_um_chute chutes, erros
-        if chutes.include? chute
-            avisa_chute_repetido chute
-            next
-        end
+        mascara = palavra_mascarada chutes, palavra_secreta
+        chute = pede_um_chute_valido(chutes, erros, mascara)
         #Verificar aqui que já chutei
         chutes << chute
 
@@ -120,6 +122,30 @@ def joga(nome)
     avisa_pontos pontos_ate_agora
 end    
 
+def palavra_mascarada(chutes, palavra_secreta)
+    mascara = ""
+    for letra in palavra_secreta.chars
+        if chutes.include? letra
+            mascara += letra
+        else 
+            mascara += "_"
+        end
+    end
+    mascara
+end
+
+def pede_um_chute_valido(chutes, erros, mascara)
+    cabecalho_de_tentativa chutes, erros, mascara
+    loop do 
+        chute = pede_um_chute
+        if chutes.include? chute
+            avisa_chute_repetido chute
+        else
+            return chute
+        end
+    end
+end
+
 # def conta(texto, caracter)
 #     total_encontrado = 0
 
@@ -140,13 +166,15 @@ end
 #     total_encontrado
 # end
 
-nome = da_boas_vindas
-palavra = escolhe_palavra_secreta
 
-loop do 
-    joga nome
-    if nao_quer_jogar?
-        break
+def jogo_da_forca
+    nome = da_boas_vindas
+    palavra = escolhe_palavra_secreta
+
+    loop do 
+        joga nome
+        if nao_quer_jogar?
+            break
+        end
     end
 end
-

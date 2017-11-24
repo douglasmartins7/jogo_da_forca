@@ -1,3 +1,8 @@
+#::user interface:: ou ::UI::
+#Interface com o usuário
+
+#Alterar maneira que usuario interage
+
 def da_boas_vindas
     puts "Bem vindo ao jogo da forca"
     puts "Qual é o seu nome?"
@@ -7,10 +12,7 @@ def da_boas_vindas
     nome
 end
 
-def pede_um_chute(chutes, erros)
-    puts "\n\n\n\n"
-    puts "Erros até agora: #{erros}"
-    puts "Chutes até agora: #{chutes}"
+def pede_um_chute
     puts "Entre com a letra ou palavra"
     chute = gets.strip
     puts  "Será que acertou? Você chutou #{chute}"
@@ -28,6 +30,14 @@ def escolhe_palavra_secreta
     palavra_secreta = "programador"
     puts "Escolhida uma palavra com #{palavra_secreta.size} letras... boa sorte!"
     palavra_secreta
+end
+
+def cabecalho_de_tentativa(chutes, erros, mascara)
+    puts "\n\n\n\n"
+    puts "\n\n\n\n"
+    puts "Palavra secreta: #{mascara}"
+    puts "Erros até agora: #{erros}"
+    puts "Chutes até agora: #{chutes}"
 end
 
 def avisa_chute_repetido(chute)
