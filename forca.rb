@@ -1,88 +1,11 @@
+require_relative 'ui' 
+require_relative 'rank'
+
 #::business logic::
 #lógica de negócio
-
 #Adicionar nova funcionalidade
-
-require_relative 'ui' 
-
-# dada a palavra mágica, `programador` para uma criança,
-# palavra_secreta = "programador"
-# chute = "o"
-# total_encontrado = 0
-
-# Ai ela olha a primeira letra da palavra (aponta para ela com o dedo!).
-# for i = 0..(palavra_secreta.size - 1)
-#     letra = palavra_secreta[i]
-#     Essa letra é a letra `o` que estou procurando? Não.
-#     É? Não.
-#     É? Sim!
-#     Então soma um no cantinho do papel (na memória).
-#     if letra == chute
-#         total_encontrado += 1
-#     end
-# end
-
-# No fim,
-# se o número é zero,
-# significa que a letra não está lá dentro, aumenta um erro
-# se o número é diferente de zero,
-# ele representa quantas vezes encontrou.
-# if total_encontrado == 0
-#     puts "Letra não encontrada!"
-#     erros += 1
-# else
-#     puts "Letra encontrada #{total_encontrado} vezes!"
-# end
-
-
-#nosso código
-# def joga(nome)
-#     palavra_secreta = sorteia_palavra_secreta
-
-#     erros = 0
-#     chutes = []
-#     pontos_ate_agora = 0
-
-#     while erros < 5
-#         chute = pede_um_chute chutes, erros
-#         chutes << chute
-
-#         chutou_uma_unica_letra = chute.size == 1
-#         if chutou_uma_unica_letra
-#             total_encontrado = 0
-
-#             for i = 0..(palavra_secreta.size - 1)
-#                 letra = palavra_secreta[i]
-#                 if letra == chute
-#                     total_encontrado += 1
-#                 end
-#             end
-
-#             if total_encontrado == 0
-#                 puts "Letra não encontrada!"
-#                 erros += 1
-#             else
-#                 puts "Letra encontrada #{total_encontrado} vezes!"
-#             end
-#         else
-#             acertou = chute == palavra_secreta
-#             if acertou
-#                 puts "Parabéns! Acertou!"
-#                 pontos_ate_agora += 100
-#                 break
-#             else
-#                 puts "Que pena... errou!"
-#                 pontos_ate_agora -= 30
-#             end
-#         end
-
-#     end
-
-#     puts "Você ganhou #{pontos_ate_agora} pontos."
-# end
-
 def joga(nome)
-    palavra_secreta = escolhe_palavra_secreta
+    palavra_secreta = sorteia_palavra_secreta
 
     erros = 0
     chutes = []
@@ -120,6 +43,7 @@ def joga(nome)
     end
 
     avisa_pontos pontos_ate_agora
+    pontos_ate_agora
 end    
 
 def palavra_mascarada(chutes, palavra_secreta)
@@ -146,26 +70,6 @@ def pede_um_chute_valido(chutes, erros, mascara)
     end
 end
 
-# def conta(texto, caracter)
-#     total_encontrado = 0
-
-#     # for i = 0..texto.size
-#     #     letra = texto[i]
-#     #     if letra == caracter
-#     #         total_encontrado += 1
-#     #     end
-#     # end
-
-#     #chars que devolve um array de caracteres
-#     for letra in texto.chars
-#         if letra == caracter
-#             total_encontrado += 1
-#         end
-#     end
-
-#     total_encontrado
-# end
-
 def sorteia_palavra_secreta
     avisa_escolhendo_palavra
     texto = File.read("dicionario.txt")
@@ -177,12 +81,17 @@ end
 
 def jogo_da_forca
     nome = da_boas_vindas
-    palavra = escolhe_palavra_secreta
+    pontos_totais = 0
 
+    avisa_campeao_atual le_rank
+    
     loop do 
-        joga nome
-        if nao_quer_jogar?
-            break
+        pontos_totais += joga nome
+        avisa_pontos_totais pontos_totais
+        if le_rank[1].to_i < pontos_totais
+            salva_rank nome, pontos_totais
         end
+
+        break if  nao_quer_jogar?
     end
 end
